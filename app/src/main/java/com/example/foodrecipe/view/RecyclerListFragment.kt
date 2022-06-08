@@ -1,7 +1,8 @@
-package com.example.foodrecipe
+package com.example.foodrecipe.view
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,45 +12,42 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.foodrecipe.adapter.RecipeAdapter
+import com.example.foodrecipe.databinding.FragmentRecyclerListBinding
 import com.example.foodrecipe.model.RecyclerList
 import com.example.foodrecipe.viewmodel.RecipeListViewModel
 
 
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [RecyclerListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class RecyclerListFragment : Fragment() {
-      private lateinit  var recyclerAdapter: RecipeAdapter
+      private lateinit  var recyclerAdapter: RecipeAdapter // adapter instance
 
-
+    lateinit var binding: FragmentRecyclerListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding= FragmentRecyclerListBinding.inflate(inflater,container,false)
 
-      val view= inflater.inflate(R.layout.fragment_recycler_list, container, false)
-        initViewModel(view)
+
+        initViewModel(binding)
         initViewModel()
-        return view
+        return binding.root
     }
 
     //need to initialize recyclwerview
 
-    private fun initViewModel(view: View){
-       val recyclerView= view.findViewById<RecyclerView>(R.id.recyclerView)
+    private fun initViewModel(view: FragmentRecyclerListBinding){
+        val recyclerview= binding.recyclerView
 // Linear layout manager
-        recyclerView.layoutManager= LinearLayoutManager(activity)
+        recyclerview.layoutManager= LinearLayoutManager(activity)
         val decoration= DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
-        recyclerView.addItemDecoration(decoration)
+        recyclerview.addItemDecoration(decoration)
         recyclerAdapter = RecipeAdapter()
-        recyclerView.adapter= RecipeAdapter()
+        recyclerview.adapter= recyclerAdapter // set adpater instance to recyclerview
     }
 
     private fun initViewModel(){
@@ -57,9 +55,10 @@ class RecyclerListFragment : Fragment() {
         //initialize the viewmodel, call all functions of viewmodel, set observer
         val viewmodel= ViewModelProvider(this).get(RecipeListViewModel::class.java)
         viewmodel.getRecyclerListObserver().observe(viewLifecycleOwner, Observer<RecyclerList> {
-            // check recycler list not null
+            // check recycler list is not null then only set data to adapter else show message using toast
             if(it !=null){
                 recyclerAdapter.setUpdatedData(it.results)
+                Log.d("Hello",""+it.results)
 
             }else{
                 Toast.makeText(activity,"Error getting data",Toast.LENGTH_SHORT).show()
@@ -69,7 +68,6 @@ class RecyclerListFragment : Fragment() {
         viewmodel.makeAPiCall()
     }
     companion object {
-
 
         @JvmStatic
         fun newInstance() =

@@ -12,12 +12,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class RecipeListViewModel: ViewModel() {
-    lateinit var recyclerListLiveData:MutableLiveData<RecyclerList>
-    //initialization
-    init{
-       recyclerListLiveData= MutableLiveData()
-    }
-// function to return livedata
+    var recyclerListLiveData:MutableLiveData<RecyclerList> = MutableLiveData()
+    // function to return livedata
 
     fun getRecyclerListObserver():MutableLiveData<RecyclerList>{
         return recyclerListLiveData
@@ -26,9 +22,10 @@ class RecipeListViewModel: ViewModel() {
     // function to make api call
 
     fun makeAPiCall(){
+        //below is the function for coroutine
         viewModelScope.launch(Dispatchers.IO){
             val retroInstance=RetroInstance.getRetroInstance().create(RetroServices::class.java)
-            val response= retroInstance.getRecipes("91e9af87e23446fba7be44399ac65782", 2)
+            val response= retroInstance.getRecipes("91e9af87e23446fba7be44399ac65782", 100)
             recyclerListLiveData.postValue(response)
 
         }

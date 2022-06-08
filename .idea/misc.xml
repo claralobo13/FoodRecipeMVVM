@@ -5,7 +5,9 @@
       <map>
         <entry key="..\:/Users/Laith/AndroidStudioProjects/FoodRecipe/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/Laith/AndroidStudioProjects/FoodRecipe/app/src/main/res/layout/fragment_recycler_list.xml" value="0.15260416666666668" />
+        <entry key="..\:/Users/Laith/AndroidStudioProjects/FoodRecipe/app/src/main/res/layout/recycler_list_item.xml" value="0.1" />
         <entry key="..\:/Users/Laith/AndroidStudioProjects/FoodRecipe/app/src/main/res/layout/recycler_list_row.xml" value="0.15364583333333334" />
+        <entry key="..\:/Users/Laith/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/activity_list_item.xml" value="0.16770833333333332" />
       </map>
     </option>
   </component>

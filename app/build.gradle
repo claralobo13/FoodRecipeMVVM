@@ -29,6 +29,13 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    dataBinding{
+        enabled= true
+    }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -53,8 +60,5 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
     implementation 'com.squareup.picasso:picasso:2.8'
-
-
-
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
 }
