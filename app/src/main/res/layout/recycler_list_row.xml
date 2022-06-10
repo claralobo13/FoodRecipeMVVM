@@ -5,7 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp"
-    android:layout_margin="5dp">
+    android:layout_margin="5dp"
+    app:cardBackgroundColor="@color/white">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -22,7 +24,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.195"
-            app:layout_constraintWidth_percent=".8" />
+            app:layout_constraintWidth_percent=".8"
+            android:layerType="software"/>
 
         <TextView
             android:id="@+id/title"
@@ -33,9 +36,10 @@
             android:textAlignment="center"
             android:fontFamily="sans-serif"
             android:background="#919193"
-            android:text="This is a very long title and here it is"
+            android:text="@string/textview_text"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#ffff"
+            android:textColor="@color/red"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageThumb" />

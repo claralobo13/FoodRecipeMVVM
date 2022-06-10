@@ -1,7 +1,9 @@
 package com.example.foodrecipe.adapter
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.graphics.drawable.PictureDrawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,18 +11,31 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.foodrecipe.R
+import com.bumptech.glide.Glide
+
 import com.example.foodrecipe.databinding.RecyclerListRowBinding
 import com.example.foodrecipe.model.RecyclerData
-import com.squareup.picasso.Picasso
 
-class RecipeAdapter : RecyclerView.Adapter<RecipeAdapter.MyViewHolder>() {
-    //arraylist to hold the data which need to be displayed on Recycler view
+
+
+//arraylist to hold the data which need to be displayed on Recycler view - var items = ArrayList<RecyclerData>()
+//fun bind - to get recycler data
+@SuppressLint("StaticFieldLeak")
+lateinit var activity: Activity
+class RecipeAdapter(fragmentActivity: FragmentActivity?) : RecyclerView.Adapter<RecipeAdapter.MyViewHolder>() {
+
     var items = ArrayList<RecyclerData>()
-    lateinit var layoutinflater: LayoutInflater
-    lateinit var activity: Activity
 
+
+     lateinit  var context: Context
+
+     init {
+         if(fragmentActivity !=null){
+             activity=fragmentActivity
+         }
+     }
 
     fun setUpdatedData(items: ArrayList<RecyclerData>) {
         this.items = items
@@ -30,19 +45,22 @@ class RecipeAdapter : RecyclerView.Adapter<RecipeAdapter.MyViewHolder>() {
     class MyViewHolder(val binding: RecyclerListRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+
         val imageThumb = binding.imageThumb
 
         val title = binding.title
 
-        //to get recycler data
         fun bind(data: RecyclerData) {
 
+
             title.text = data.title
-            Log.d("TAG6", "" + title)
+            Log.d("TAG", "" + title)
             val url = data.image
-            Picasso.get()
-                .load(url)
-                .into(imageThumb)
+
+            Glide.with(activity)
+                        .load(url)
+                        .into(imageThumb)
+
 
 
         }
@@ -50,14 +68,16 @@ class RecipeAdapter : RecyclerView.Adapter<RecipeAdapter.MyViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+
         val binding =
             RecyclerListRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        context= holder.itemView.context
         holder.bind(items.get(position))
-        Log.d("TAG4", "" + items)
+        Log.d("TAG2", "Dispaly response" + items)
     }
     override fun getItemCount(): Int {
         return items.size

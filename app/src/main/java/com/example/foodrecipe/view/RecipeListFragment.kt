@@ -21,8 +21,9 @@ import com.example.foodrecipe.viewmodel.RecipeListViewModel
 
 
 
-class RecyclerListFragment : Fragment() {
-      private lateinit  var recyclerAdapter: RecipeAdapter // adapter instance
+
+class RecipeListFragment : Fragment() {
+      private lateinit  var recyclerAdapter: RecipeAdapter
 
     lateinit var binding: FragmentRecyclerListBinding
 
@@ -38,24 +39,21 @@ class RecyclerListFragment : Fragment() {
         return binding.root
     }
 
-    //need to initialize recyclwerview
 
+//initialize the viewmodel, adapter
     private fun initViewModel(view: FragmentRecyclerListBinding){
-        val recyclerview= binding.recyclerView
-// Linear layout manager
-        recyclerview.layoutManager= LinearLayoutManager(activity)
+        val recyclerView= binding.recyclerView
+        recyclerView.layoutManager= LinearLayoutManager(activity)
         val decoration= DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
-        recyclerview.addItemDecoration(decoration)
-        recyclerAdapter = RecipeAdapter()
-        recyclerview.adapter= recyclerAdapter // set adpater instance to recyclerview
+        recyclerView.addItemDecoration(decoration)
+        recyclerAdapter = RecipeAdapter(activity)
+        recyclerView.adapter= recyclerAdapter
     }
-
+    // check recycler list is not null then only set data to adapter else show message using toast
     private fun initViewModel(){
 
-        //initialize the viewmodel, call all functions of viewmodel, set observer
-        val viewmodel= ViewModelProvider(this).get(RecipeListViewModel::class.java)
-        viewmodel.getRecyclerListObserver().observe(viewLifecycleOwner, Observer<RecyclerList> {
-            // check recycler list is not null then only set data to adapter else show message using toast
+        val viewModel= ViewModelProvider(this).get(RecipeListViewModel::class.java)
+        viewModel.getRecyclerListObserver().observe(viewLifecycleOwner, Observer<RecyclerList> {
             if(it !=null){
                 recyclerAdapter.setUpdatedData(it.results)
                 Log.d("Hello",""+it.results)
@@ -65,12 +63,12 @@ class RecyclerListFragment : Fragment() {
             }
 
         })
-        viewmodel.makeAPiCall()
+        viewModel.makeAPiCall()
     }
     companion object {
 
         @JvmStatic
         fun newInstance() =
-            RecyclerListFragment()
+            RecipeListFragment()
     }
 }
